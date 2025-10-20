@@ -1,6 +1,6 @@
 import { type Usuario, type InsertUsuario, type UpdateUsuario, usuarios } from "@shared/schema";
 import { getDb } from "./db";
-import { eq, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 export interface IStorage {
   getUsuario(id: number): Promise<Usuario | undefined>;
@@ -9,9 +9,53 @@ export interface IStorage {
   countUsuarios(): Promise<number>;
   listUsuarios(): Promise<Pick<Usuario, 'id_usuario' | 'nombre' | 'apellido' | 'email' | 'role'>[]>;
   updateUsuario(id: number, data: UpdateUsuario): Promise<Usuario>;
+  insertOrUpdateActividadFisica(data: { id_usuario: number; fecha: string; pasos: number; duracion_minutos: number }): Promise<void>;
+  getActividadesFisicas(id_usuario: number, from?: string, to?: string): Promise<any[]>;
 }
 
+import { actividadFisica } from "@shared/schema";
+import { eq, and, gte, lte } from "drizzle-orm";
+
 export class DatabaseStorage implements IStorage {
+  async insertOrUpdateActividadFisica(data: { id_usuario: number; fecha: string; pasos: number; duracion_minutos: number }): Promise<void> {
+    const db = await getDb();
+  // Trabajar con fecha como string 'YYYY-MM-DD' directamente
+  const fechaStr = data.fecha;
+    // Buscar si ya existe registro para ese usuario y fecha
+    // Upsert: insert y si hay conflicto por índice único, actualizar
+    await db
+      .insert(actividadFisica)
+      .values({
+        id_usuario: data.id_usuario,
+        fecha: fechaStr,
+        pasos: data.pasos,
+        duracion_minutos: data.duracion_minutos,
+      })
+      .onDuplicateKeyUpdate({
+        set: {
+          pasos: data.pasos,
+          duracion_minutos: data.duracion_minutos,
+        },
+      });
+  }
+
+  async getActividadesFisicas(id_usuario: number, from?: string, to?: string): Promise<any[]> {
+    const db = await getDb();
+    let whereClause;
+    if (from && to) {
+      const fromStr = from; // 'YYYY-MM-DD'
+      const toStr = to;     // 'YYYY-MM-DD'
+      whereClause = and(
+        eq(actividadFisica.id_usuario, id_usuario),
+        gte(actividadFisica.fecha, fromStr),
+        lte(actividadFisica.fecha, toStr)
+      );
+    } else {
+      whereClause = eq(actividadFisica.id_usuario, id_usuario);
+    }
+    // Ordenar por fecha descendente (más reciente primero)
+    return await db.select().from(actividadFisica).where(whereClause).orderBy(sql`fecha DESC`);
+  }
   async getUsuario(id: number): Promise<Usuario | undefined> {
     const db = await getDb();
     const result = await db.select().from(usuarios).where(eq(usuarios.id_usuario, id)).limit(1);

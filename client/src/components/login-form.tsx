@@ -61,13 +61,13 @@ export function LoginForm({ onRegisterClick }: LoginFormProps) {
 
   return (
     <Card className="w-full max-w-md animate-in fade-in-0 zoom-in-95 duration-500" data-testid="card-login">
-      <CardHeader className="space-y-1 animate-in slide-in-from-top-4 fade-in-0 duration-700 delay-150">
+  <CardHeader className="space-y-1 animate-in slide-in-from-top-4 fade-in-0 duration-700 [animation-delay:150ms]">
         <CardTitle className="text-2xl font-bold">Control +</CardTitle>
         <CardDescription>Ingresa tus credenciales para acceder a tu cuenta</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2 animate-in slide-in-from-left-4 fade-in-0 duration-700 delay-300">
+          <div className="space-y-2 animate-in slide-in-from-left-4 fade-in-0 duration-700 [animation-delay:300ms]">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
@@ -79,7 +79,7 @@ export function LoginForm({ onRegisterClick }: LoginFormProps) {
               data-testid="input-email"
             />
           </div>
-          <div className="space-y-2 animate-in slide-in-from-left-4 fade-in-0 duration-700 delay-[450ms]">
+          <div className="space-y-2 animate-in slide-in-from-left-4 fade-in-0 duration-700 [animation-delay:450ms]">
             <Label htmlFor="password">Contraseña</Label>
             <Input
               id="password"
@@ -90,7 +90,7 @@ export function LoginForm({ onRegisterClick }: LoginFormProps) {
               data-testid="input-password"
             />
           </div>
-          <div className="flex items-center justify-between animate-in slide-in-from-left-4 fade-in-0 duration-700 delay-[600ms]">
+          <div className="flex items-center justify-between animate-in slide-in-from-left-4 fade-in-0 duration-700 [animation-delay:600ms]">
             <div className="flex items-center space-x-2">
               <Checkbox id="remember" className="border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600" />
               <label
@@ -104,10 +104,10 @@ export function LoginForm({ onRegisterClick }: LoginFormProps) {
               ¿Olvidaste tu contraseña?
             </Button>
           </div>
-          <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white animate-in slide-in-from-bottom-4 fade-in-0 duration-700 delay-[750ms]" data-testid="button-login" disabled={isLoading}>
+          <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white animate-in slide-in-from-bottom-4 fade-in-0 duration-700 [animation-delay:750ms]" data-testid="button-login" disabled={isLoading}>
             {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
           </Button>
-          <div className="text-center text-sm animate-in fade-in-0 duration-700 delay-[900ms]">
+          <div className="text-center text-sm animate-in fade-in-0 duration-700 [animation-delay:900ms]">
             ¿No tienes cuenta?{" "}
             <Button
               variant="ghost"

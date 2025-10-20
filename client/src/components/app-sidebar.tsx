@@ -23,22 +23,22 @@ const userItems = [
     icon: LayoutDashboard,
   },
   {
-    title: "Exercise",
+    title: "Ejercicio",
     url: "/exercise",
     icon: Activity,
   },
   {
-    title: "Nutrition",
+    title: "Nutrición",
     url: "/nutrition",
     icon: Apple,
   },
   {
-    title: "Sleep",
+    title: "Sueño",
     url: "/sleep",
     icon: Sleep,
   },
   {
-    title: "Profile",
+    title: "Perfil",
     url: "/profile",
     icon: User,
   },

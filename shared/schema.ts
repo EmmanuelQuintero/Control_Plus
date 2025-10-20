@@ -1,10 +1,10 @@
 import { sql } from "drizzle-orm";
-import { mysqlTable, varchar, int, date, decimal, mysqlEnum } from "drizzle-orm/mysql-core";
+import { mysqlTable, varchar, int, date, decimal, mysqlEnum, uniqueIndex } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 // Tabla Usuarios
-export const usuarios = mysqlTable("Usuarios", {
+export const usuarios = mysqlTable("usuarios", {
   id_usuario: int("id_usuario").primaryKey().autoincrement(),
   nombre: varchar("nombre", { length: 100 }).notNull(),
   apellido: varchar("apellido", { length: 100 }).notNull(),
@@ -18,18 +18,23 @@ export const usuarios = mysqlTable("Usuarios", {
 });
 
 // Tabla ActividadFisica
-export const actividadFisica = mysqlTable("ActividadFisica", {
-  id_actividad: int("id_actividad").primaryKey().autoincrement(),
-  id_usuario: int("id_usuario").notNull(),
-  fecha: date("fecha").notNull(),
+export const actividadFisica = mysqlTable(
+  "actividadfisica",
+  {
+    id_actividad: int("id_actividad").primaryKey().autoincrement(),
+    id_usuario: int("id_usuario").notNull(),
+    // Mapear como string para evitar problemas de zona horaria en DATE
+    fecha: date("fecha", { mode: "string" }).notNull(),
   pasos: int("pasos"),
-  calorias_quemadas: decimal("calorias_quemadas", { precision: 6, scale: 2 }),
-  tipo_rutina: varchar("tipo_rutina", { length: 100 }),
-  duracion_minutos: int("duracion_minutos"),
-});
+    duracion_minutos: int("duracion_minutos"),
+  },
+  (table) => ({
+    uniqUsuarioFecha: uniqueIndex("uniq_usuario_fecha").on(table.id_usuario, table.fecha),
+  })
+);
 
 // Tabla Alimentacion
-export const alimentacion = mysqlTable("Alimentacion", {
+export const alimentacion = mysqlTable("alimentacion", {
   id_alimento: int("id_alimento").primaryKey().autoincrement(),
   id_usuario: int("id_usuario").notNull(),
   fecha: date("fecha").notNull(),
@@ -42,7 +47,7 @@ export const alimentacion = mysqlTable("Alimentacion", {
 });
 
 // Tabla Sueno
-export const sueno = mysqlTable("Sueno", {
+export const sueno = mysqlTable("sueno", {
   id_sueno: int("id_sueno").primaryKey().autoincrement(),
   id_usuario: int("id_usuario").notNull(),
   fecha: date("fecha").notNull(),

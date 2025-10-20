@@ -5,6 +5,38 @@ import bcrypt from "bcrypt";
 import { insertUsuarioSchema, loginUsuarioSchema, updateUsuarioSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Registrar o actualizar actividad física
+  app.post("/api/activity", async (req, res) => {
+    try {
+      const { id_usuario, fecha, pasos, duracion_minutos } = req.body;
+      if (!id_usuario || !fecha || pasos == null || duracion_minutos == null) {
+        return res.status(400).json({ success: false, message: "Faltan datos" });
+      }
+      await storage.insertOrUpdateActividadFisica({ id_usuario, fecha, pasos, duracion_minutos });
+      res.status(201).json({ success: true, message: "Actividad registrada o actualizada" });
+    } catch (error) {
+      console.error("Error registrando actividad física:", error);
+      res.status(500).json({ success: false, message: "Error al registrar actividad" });
+    }
+  });
+
+  // Consultar historial de actividad física por usuario y rango de fechas
+  app.get("/api/activity/:id_usuario", async (req, res) => {
+    try {
+      const id_usuario = Number(req.params.id_usuario);
+      if (Number.isNaN(id_usuario)) return res.status(400).json({ success: false, message: "ID inválido" });
+      const { from, to } = req.query;
+      const actividades = await storage.getActividadesFisicas(
+        id_usuario,
+        typeof from === "string" ? from : undefined,
+        typeof to === "string" ? to : undefined
+      );
+      res.json({ success: true, actividades });
+    } catch (error) {
+      console.error("Error consultando actividad física:", error);
+      res.status(500).json({ success: false, message: "Error al consultar actividad" });
+    }
+  });
   
   // Ruta de registro
   app.post("/api/register", async (req, res) => {

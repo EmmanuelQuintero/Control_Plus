@@ -75,13 +75,13 @@ export function RegisterForm({ onLoginClick }: RegisterFormProps) {
 
   return (
     <Card className="w-full max-w-md animate-in fade-in-0 zoom-in-95 duration-500" data-testid="card-register">
-      <CardHeader className="space-y-1 animate-in slide-in-from-top-4 fade-in-0 duration-700 delay-150">
+  <CardHeader className="space-y-1 animate-in slide-in-from-top-4 fade-in-0 duration-700 [animation-delay:150ms]">
         <CardTitle className="text-2xl font-bold">Crear Cuenta</CardTitle>
         <CardDescription>Ingresa tu información para comenzar</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-left-4 fade-in-0 duration-700 delay-300">
+          <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-left-4 fade-in-0 duration-700 [animation-delay:300ms]">
             <div className="space-y-2">
               <Label htmlFor="firstName">Nombre</Label>
               <Input
@@ -103,7 +103,7 @@ export function RegisterForm({ onLoginClick }: RegisterFormProps) {
               />
             </div>
           </div>
-          <div className="space-y-2 animate-in slide-in-from-right-4 fade-in-0 duration-700 delay-[400ms]">
+          <div className="space-y-2 animate-in slide-in-from-right-4 fade-in-0 duration-700 [animation-delay:400ms]">
             <Label htmlFor="email">Correo</Label>
             <Input
               id="email"
@@ -114,7 +114,7 @@ export function RegisterForm({ onLoginClick }: RegisterFormProps) {
               data-testid="input-email"
             />
           </div>
-          <div className="space-y-2 animate-in slide-in-from-right-4 fade-in-0 duration-700 delay-[500ms]">
+          <div className="space-y-2 animate-in slide-in-from-right-4 fade-in-0 duration-700 [animation-delay:500ms]">
             <Label htmlFor="password">Contraseña</Label>
             <Input
               id="password"
@@ -125,7 +125,7 @@ export function RegisterForm({ onLoginClick }: RegisterFormProps) {
               data-testid="input-password"
             />
           </div>
-          <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-left-4 fade-in-0 duration-700 delay-[600ms]">
+          <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-left-4 fade-in-0 duration-700 [animation-delay:600ms]">
             <div className="space-y-2">
               <Label htmlFor="age">Edad</Label>
               <Input
@@ -151,7 +151,7 @@ export function RegisterForm({ onLoginClick }: RegisterFormProps) {
               </Select>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-right-4 fade-in-0 duration-700 delay-[700ms]">
+          <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-right-4 fade-in-0 duration-700 [animation-delay:700ms]">
             <div className="space-y-2">
               <Label htmlFor="weight">Peso (kg)</Label>
               <Input
@@ -175,10 +175,10 @@ export function RegisterForm({ onLoginClick }: RegisterFormProps) {
               />
             </div>
           </div>
-          <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white animate-in slide-in-from-bottom-4 fade-in-0 duration-700 delay-[800ms]" data-testid="button-register" disabled={isLoading}>
+          <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white animate-in slide-in-from-bottom-4 fade-in-0 duration-700 [animation-delay:800ms]" data-testid="button-register" disabled={isLoading}>
             {isLoading ? "Creando cuenta..." : "Crear Cuenta"}
           </Button>
-          <div className="text-center text-sm animate-in fade-in-0 duration-700 delay-[950ms]">
+          <div className="text-center text-sm animate-in fade-in-0 duration-700 [animation-delay:950ms]">
             ¿Ya tienes una cuenta?{" "}
             <Button
               variant="ghost"
